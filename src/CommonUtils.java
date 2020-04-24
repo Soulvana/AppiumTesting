@@ -122,4 +122,7 @@ public class CommonUtils {
         driver.launchApp();
     }
 
+    public void printCUrrentScreen() {
+        System.out.println("Current screen  "+((AndroidDriver)driver).currentActivity());
+    }
 }
