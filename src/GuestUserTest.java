@@ -1,25 +1,17 @@
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.TouchAction;
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.interactions.touch.TouchActions;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.testng.Assert;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.concurrent.TimeUnit;
+public class GuestUserTest extends BaseTest {
 
-public class GuestUserTest {
 
-    public static void main(String[] args) throws MalformedURLException {
+    @Override
+    void startTest() {
 
         CommonUtils commonUtils = CommonUtils.getInstance(Platform.ANDROID);
 
         commonUtils.waitForSec(10);
+
+        commonUtils.clickOnElement("com.mindvalley.soulvana:id/com_appboy_inappmessage_full_button_dual_one");
 
         commonUtils.clickOnElement("com.mindvalley.soulvana:id/tv_get_started");
 
@@ -36,8 +28,10 @@ public class GuestUserTest {
 
         commonUtils.clickOnElement("com.mindvalley.soulvana:id/start_session");
 
-        commonUtils.assertNotNull("com.mindvalley.soulvana:id/signup_text_title", "Signup screen is not showing");
+//        commonUtils.assertNotNull("com.mindvalley.soulvana:id/signup_btn_layout", "Signup screen is not showing");
+
+        commonUtils.assertCorrectScreen(".launcher.SignupActivity", "Signup screen is not showing" );
+
+        commonUtils.closeApp();
     }
-
-
 }

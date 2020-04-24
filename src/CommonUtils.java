@@ -21,17 +21,19 @@ public class CommonUtils {
     private String SERVER_URL = "http://127.0.0.1:4723/wd/hub";
     private static CommonUtils commonUtils;
 
-    enum PLATFORM{
-        ANDORID, IOS
-    }
+    public static CommonUtils getInstance(Platform platform) {
 
-    public static CommonUtils getInstance(Platform platform) throws MalformedURLException {
         if (commonUtils == null) {
             commonUtils = new CommonUtils();
 
-            if(platform == Platform.ANDROID){
-                commonUtils.initAndroidConfig();
+            try {
+                if (platform == Platform.ANDROID) {
+                    commonUtils.initAndroidConfig();
+                }
+            } catch (MalformedURLException ex) {
+
             }
+
         }
         return commonUtils;
     }
@@ -67,7 +69,7 @@ public class CommonUtils {
     }
 
     public void clickOnXPathElement(String elementId) {
-        Optional.of(getElementByXPath(elementId)).ifPresent(MobileElement::click);
+        Optional.ofNullable(getElementByXPath(elementId)).ifPresent(MobileElement::click);
     }
 
     public void clickOnElement(String elementId) {
@@ -100,9 +102,24 @@ public class CommonUtils {
                     .press(startPoint)
                     .moveTo(endPoint)
                     .perform();
-        }catch (InvalidElementStateException ex){
+        } catch (InvalidElementStateException ex) {
 
         }
 
     }
+
+    public void assertCorrectScreen(String screenName, String errorMessage) {
+
+        if (driver instanceof AndroidDriver)
+            Assert.assertEquals(((AndroidDriver) driver).currentActivity(), screenName, errorMessage);
+    }
+
+    public void closeApp() {
+        driver.closeApp();
+    }
+
+    public void launchApp(){
+        driver.launchApp();
+    }
+
 }

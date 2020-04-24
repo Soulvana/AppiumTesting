@@ -4,11 +4,15 @@ import org.openqa.selenium.Platform;
 
 import java.net.MalformedURLException;
 
-public class FreeUserTest {
+public class FreeUserTest extends BaseTest{
 
-    public static void main(String[] args) throws MalformedURLException {
+
+    @Override
+    void startTest() {
 
         CommonUtils commonUtils = CommonUtils.getInstance(Platform.ANDROID);
+
+        commonUtils.launchApp();
 
         commonUtils.waitForSec(10);
 
@@ -47,5 +51,8 @@ public class FreeUserTest {
         commonUtils.clickOnElement("com.mindvalley.soulvana:id/start_session");
 
         commonUtils.assertNotNull("com.mindvalley.soulvana:id/iv_author_img", "Session in progress not started");
+
     }
+
+
 }
