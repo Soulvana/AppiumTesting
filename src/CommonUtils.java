@@ -3,6 +3,7 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.InvalidElementStateException;
@@ -29,6 +30,8 @@ public class CommonUtils {
             try {
                 if (platform == Platform.ANDROID) {
                     commonUtils.initAndroidConfig();
+                }else {
+                    commonUtils.initiOSConfig();
                 }
             } catch (MalformedURLException ex) {
 
@@ -48,6 +51,17 @@ public class CommonUtils {
 
         driver = new AndroidDriver<>(new URL(SERVER_URL), capabilities);
 
+    }
+
+    public void initiOSConfig() throws MalformedURLException {
+        //Defining capabilities for test device
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12.4");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Xs");
+        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME,"Safari");
+//        capabilities.setCapability(MobileCapabilityType.APP, "Users/mindvalley/Downloads/Soulvana.app");
+        driver = new IOSDriver<MobileElement>(new URL(SERVER_URL), capabilities);
     }
 
     public MobileElement getElement(String elementId) {

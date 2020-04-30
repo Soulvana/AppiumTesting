@@ -7,7 +7,7 @@ public class GuestUserTest extends BaseTest {
     @Override
     void startTest() {
 
-        CommonUtils commonUtils = CommonUtils.getInstance(Platform.ANDROID);
+        CommonUtils commonUtils = CommonUtils.getInstance(Platform.IOS);
         try {
 
             commonUtils.waitForSec(10);
