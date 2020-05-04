@@ -4,10 +4,13 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.InvalidElementStateException;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
 
@@ -15,6 +18,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import static io.appium.java_client.touch.offset.PointOption.point;
 
 public class CommonUtils {
 
@@ -30,7 +35,7 @@ public class CommonUtils {
             try {
                 if (platform == Platform.ANDROID) {
                     commonUtils.initAndroidConfig();
-                }else {
+                } else {
                     commonUtils.initiOSConfig();
                 }
             } catch (MalformedURLException ex) {
@@ -45,9 +50,9 @@ public class CommonUtils {
         //Defining capabilities for test device
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "bd949afa0404"); //"R58M84ZBTXB"
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("appPackage", "com.mindvalley.soulvana");
-        capabilities.setCapability("appActivity", ".newclean.update.presentation.AppUpdateActivity");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
+        capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.mindvalley.soulvana");
+        capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".newclean.update.presentation.AppUpdateActivity");
 
         driver = new AndroidDriver<>(new URL(SERVER_URL), capabilities);
 
@@ -57,11 +62,19 @@ public class CommonUtils {
         //Defining capabilities for test device
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12.4");
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone Xs");
-        capabilities.setCapability(MobileCapabilityType.BROWSER_NAME,"Safari");
-//        capabilities.setCapability(MobileCapabilityType.APP, "Users/mindvalley/Downloads/Soulvana.app");
-        driver = new IOSDriver<MobileElement>(new URL(SERVER_URL), capabilities);
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "13.4");
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 11");
+        capabilities.setCapability(MobileCapabilityType.UDID, "50977327-7CC1-494D-9B2E-28C5DAE9A2BB");
+        capabilities.setCapability(IOSMobileCapabilityType.BUNDLE_ID, "com.mindvalley.soulvana");
+//        capabilities.setCapability(IOSMobileCapabilityType.APP_NAME,"/Users/mindvalley/Downloads/Soulvana (1).ipa");
+
+        capabilities.setCapability("waitForQuietness", false);
+        capabilities.setCapability("waitForQuiescence", false);
+        capabilities.setCapability("wdaEventloopIdleDelay", 7);
+        capabilities.setCapability("eventLoopIdleDelaySec", 4);
+        capabilities.setCapability("startIWDP", true);
+//        capabilities.setCapability(MobileCapabilityType.FULL_RESET, true);
+        driver = new IOSDriver<>(new URL(SERVER_URL), capabilities);
     }
 
     public MobileElement getElement(String elementId) {
@@ -83,7 +96,18 @@ public class CommonUtils {
     }
 
     public void clickOnXPathElement(String elementId) {
-        Optional.ofNullable(getElementByXPath(elementId)).ifPresent(MobileElement::click);
+//        Optional.ofNullable(getElementByXPath(elementId)).ifPresent(MobileElement::click);
+        tapByElement(getElementByXPath(elementId));
+    }
+
+
+
+    public void tapByElement( MobileElement element) {
+        int startX = element.getLocation().getX();
+        int addition = (int) (element.getSize().height * 0.5);
+        int endX = startX + addition;
+        int startY = element.getLocation().getY();
+        new TouchAction(driver).tap(point(endX, startY)).perform();
     }
 
     public void clickOnElement(String elementId) {
@@ -98,12 +122,16 @@ public class CommonUtils {
         Optional.ofNullable(getElement(elementId)).ifPresent(element -> element.sendKeys(text));
     }
 
+    public void setTextOnXPathElement(String elementId, String text){
+        Optional.ofNullable(getElementByXPath(elementId)).ifPresent(element -> element.sendKeys(text));
+    }
+
     public void hideKeyboard() {
         driver.hideKeyboard();
     }
 
     public void tap(int xCoordinate, int yCoordinate) {
-        (new TouchAction(driver)).tap(PointOption.point(xCoordinate, yCoordinate)).perform();
+        (new TouchAction(driver)).tap(point(xCoordinate, yCoordinate)).perform();
     }
 
     public void assertNotNull(String elementId, String errorMessage) {
@@ -132,11 +160,11 @@ public class CommonUtils {
         driver.closeApp();
     }
 
-    public void launchApp(){
+    public void launchApp() {
         driver.launchApp();
     }
 
     public void printCUrrentScreen() {
-        System.out.println("Current screen  "+((AndroidDriver)driver).currentActivity());
+        System.out.println("Current screen  " + ((AndroidDriver) driver).currentActivity());
     }
 }
