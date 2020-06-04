@@ -9,9 +9,9 @@ public class FreeUserTest extends BaseTest {
 
     @Override
     void startTest() {
-
+        CommonUtils commonUtils = CommonUtils.getInstance(Platform.ANDROID);
         try {
-            CommonUtils commonUtils = CommonUtils.getInstance(Platform.ANDROID);
+
 
             commonUtils.launchApp();
 
@@ -57,6 +57,8 @@ public class FreeUserTest extends BaseTest {
 
         } catch (Exception ex) {
 
+        }finally {
+            commonUtils.quiteDriver();
         }
     }
 }

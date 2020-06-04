@@ -18,14 +18,17 @@ import java.util.concurrent.TimeUnit;
 public class CommonUtils {
 
     private MobileDriver<MobileElement> driver;
-    private String SERVER_URL = "http://127.0.0.1:4723/wd/hub";
+
     private static CommonUtils commonUtils;
+    private static String userName = System.getenv("BS_USER_NAME");
+    private static String accessKey = System.getenv("BS_ACCESS_KEY");
+    private static String SERVER_URL;
 
     public static CommonUtils getInstance(Platform platform) {
 
         if (commonUtils == null) {
             commonUtils = new CommonUtils();
-
+            SERVER_URL = "https://"+userName+":"+accessKey+"@hub-cloud.browserstack.com/wd/hub";
             try {
                 if (platform == Platform.ANDROID) {
                     commonUtils.initAndroidConfig();
@@ -41,10 +44,17 @@ public class CommonUtils {
     public void initAndroidConfig() throws MalformedURLException {
         //Defining capabilities for test device
         DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "bd949afa0404"); //"R58M84ZBTXB"
-        capabilities.setCapability("platformName", "Android");
-        capabilities.setCapability("appPackage", "com.mindvalley.soulvana");
-        capabilities.setCapability("appActivity", ".newclean.update.presentation.AppUpdateActivity");
+        capabilities.setCapability("device", "Google Pixel 3");
+        capabilities.setCapability("os_version", "9.0");
+        capabilities.setCapability("project", "My First Project");
+        capabilities.setCapability("build", "My First Build");
+        capabilities.setCapability("name", "First Automation test");
+        capabilities.setCapability("app","bs://fda84865ed07e5b3b062e3030fbe48bb15f986c3");
+//        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "bd949afa0404"); //"R58M84ZBTXB"
+//        capabilities.setCapability("platformName", "Android");
+//        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION);
+//        capabilities.setCapability("appPackage", "com.mindvalley.soulvana");
+//        capabilities.setCapability("appActivity", ".newclean.update.presentation.AppUpdateActivity");
 
         driver = new AndroidDriver<>(new URL(SERVER_URL), capabilities);
 
@@ -124,5 +134,9 @@ public class CommonUtils {
 
     public void printCUrrentScreen() {
         System.out.println("Current screen  "+((AndroidDriver)driver).currentActivity());
+    }
+
+    public void quiteDriver(){
+        driver.quit();
     }
 }
