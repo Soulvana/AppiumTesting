@@ -11,7 +11,7 @@ public class FreeUserTest extends BaseTest {
     void startTest() {
 
         try {
-            CommonUtils commonUtils = CommonUtils.getInstance(Platform.IOS);
+            CommonUtils commonUtils = CommonUtils.getInstance(Platform.ANDROID);
 
             commonUtils.launchApp();
 
