@@ -23,4 +23,10 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - run:
+          name: Create release build
+          command: ./gradlew build
 
