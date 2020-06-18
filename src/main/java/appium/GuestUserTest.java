@@ -1,3 +1,5 @@
+package appium;
+
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Platform;
 

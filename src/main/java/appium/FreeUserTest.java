@@ -1,8 +1,7 @@
-import io.appium.java_client.remote.MobileCapabilityType;
+package appium;
+
 import io.appium.java_client.touch.offset.PointOption;
 import org.openqa.selenium.Platform;
-
-import java.net.MalformedURLException;
 
 public class FreeUserTest extends BaseTest {
 
