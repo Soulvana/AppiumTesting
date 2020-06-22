@@ -34,3 +34,7 @@ jobs:
           name: Running a build
           command: ./gradlew run
 
+      - run:
+          name: "What was my custom environment variable?"
+          command: echo ${BROWSERSTACK_APP_ID}
+
