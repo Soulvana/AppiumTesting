@@ -46,9 +46,10 @@ public class CommonUtils {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("device", "Google Pixel 3");
         capabilities.setCapability("os_version", "9.0");
-        capabilities.setCapability("project", "My First Project");
+        capabilities.setCapability("project", "Soulvana");
         capabilities.setCapability("build", "My First Build");
-        capabilities.setCapability("name", "First Automation test");
+        capabilities.setCapability("name", "Test from CircleCi");
+//        capabilities.setCapability("app","bs://040b75868fe7f61c349f236e79d8c954789d68d3");
         capabilities.setCapability("app",System.getenv("BROWSERSTACK_APP_ID"));
 //        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "bd949afa0404"); //"R58M84ZBTXB"
 //        capabilities.setCapability("platformName", "Android");
