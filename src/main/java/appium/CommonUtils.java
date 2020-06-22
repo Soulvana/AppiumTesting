@@ -47,7 +47,7 @@ public class CommonUtils {
         capabilities.setCapability("device", "Google Pixel 3");
         capabilities.setCapability("os_version", "9.0");
         capabilities.setCapability("project", "Soulvana");
-        capabilities.setCapability("build", "My First Build");
+        capabilities.setCapability("build", "Envirnment Var");
         capabilities.setCapability("name", "Checking envoirnment variable");
 //        capabilities.setCapability("app","bs://040b75868fe7f61c349f236e79d8c954789d68d3");
         capabilities.setCapability("app",System.getenv("BROWSERSTACK_APP_ID"));
